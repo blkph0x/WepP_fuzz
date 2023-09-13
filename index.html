@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebP Image Viewer</title>
+    <style>
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebP Image Viewer</h1>
+    <div id="image-container"></div>
+    <script>
+        // Function to display images
+        function displayImages() {
+            const imageContainer = document.getElementById("image-container");
+
+            // Number of images to iterate through
+            const numImages = 1;  // Change this to the desired number of images
+
+            let currentIndex = 0;
+            const interval = 250; // Change this to the desired interval in milliseconds (e.g., 3000ms = 3 seconds)
+
+            function showNextImage() {
+                const picture = document.createElement("picture");
+
+                // Create a source element for WebP
+                const sourceWebP = document.createElement("source");
+                sourceWebP.srcset = `webp_test_cases/test_case_${currentIndex}.webp`;
+                sourceWebP.type = "image/webp";
+
+                // Create a source element for JPEG
+                const sourceJPEG = document.createElement("source");
+                sourceJPEG.srcset = `jpeg_test_cases/test_case_${currentIndex}.jpg`;
+                sourceJPEG.type = "image/jpeg";
+
+                // Create an img element as a fallback
+                const img = document.createElement("img");
+                img.src = `jpeg_test_cases/test_case_${currentIndex}.jpg`;
+                img.alt = "Alt Text!";
+
+                // Append the source elements and img element to the picture element
+                picture.appendChild(sourceWebP);
+                picture.appendChild(sourceJPEG);
+                picture.appendChild(img);
+
+                // Clear previous image
+                imageContainer.innerHTML = "";
+
+                // Append the picture element to the container
+                imageContainer.appendChild(picture);
+
+                // Increment the index for the next image
+                currentIndex = (currentIndex + 1);
+
+                // Schedule the next image to be displayed
+                setTimeout(showNextImage, interval);
+            }
+
+            // Start displaying images
+            showNextImage();
+        }
+
+        // Call the function to display images when the page loads
+        window.onload = displayImages;
+    </script>
+</body>
+</html>
